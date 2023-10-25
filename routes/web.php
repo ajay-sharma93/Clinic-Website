@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Contact;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +36,7 @@ Route::get('/feature', function () {
 });
 
 Route::get('/contact', function () {
+
     return view('contact');
 });
 
@@ -47,4 +50,9 @@ Route::get('/testimonial', function () {
 
 Route::get('/team', function () {
     return view('team');
+});
+Route::post('/contact-save', function (Request $request) {
+
+    Contact::create($request->all());
+    return redirect()->back()->with('success', 'You have Successfully Registred');
 });
