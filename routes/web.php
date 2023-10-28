@@ -1,8 +1,11 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\Contact;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\Ignition\Contracts\Solution;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +31,8 @@ Route::get('/about', function () {
 });
 
 Route::get('/service', function () {
-    return view('service');
+    $services = Service::all();
+    return view('service', compact("services"));
 });
 
 Route::get('/feature', function () {
@@ -52,7 +56,19 @@ Route::get('/team', function () {
     return view('team');
 });
 Route::post('/contact-save', function (Request $request) {
-
-    Contact::create($request->all());
+    contact::create($request->all());
     return redirect()->back()->with('success', 'You have Successfully Registred');
+});
+
+Route::post('/appointment-save', function (Request $request) {
+    Appointment::create($request->all());
+    return redirect()->back()->with('success', 'You have booked your Appointment');
+});
+
+
+Route::get('/admin/dashboard', function () {
+    $countsolution = Service::count();
+    $countcontact = Contact::count();
+
+    return view('admin.dashboard', compact('countsolution', 'countcontact',));
 });
